@@ -3,3 +3,5 @@
 This is the Galley MVP test page.
 
 Prepared through the Galley MVP.
+
+Updated through the same Galley draft PR.

@@ -1,6 +1,5 @@
 {
   "contractVersion": 1,
   "publicationBranch": "main",
-  "contentRoots": ["content"],
-  "preview": { "adapter": "nuxt-pnpm-v1" }
+  "contentRoots": ["content"]
 }

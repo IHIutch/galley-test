@@ -1,0 +1,73 @@
+---
+import { readFile } from "node:fs/promises";
+
+import document from "../../content/welcome.md?raw";
+
+type MenuItem = {
+  label: string;
+  children: MenuItem[];
+};
+
+type Menu = {
+  id: string;
+  name: string;
+  items: MenuItem[];
+};
+
+const menus = await readFile(".galley/menus.json", "utf8")
+  .then((source) => (JSON.parse(source) as { menus: Menu[] }).menus)
+  .catch(() => [] as Menu[]);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Galley preview</title>
+    <style>
+      :root {
+        color: #172033;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        background: #f6f4ef;
+      }
+
+      body {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
+      }
+
+      main,
+      nav {
+        padding: 1.5rem;
+        border: 1px solid #d8d4ca;
+        border-radius: 0.75rem;
+        background: white;
+      }
+
+      nav {
+        margin-bottom: 1.5rem;
+      }
+
+      pre {
+        margin: 0;
+        white-space: pre-wrap;
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    {menus.map((menu) => (
+      <nav aria-label={menu.name}>
+        <strong>{menu.name}</strong>
+        <ul>
+          {menu.items.map((item) => <li>{item.label}</li>)}
+        </ul>
+      </nav>
+    ))}
+    <main>
+      <pre>{document}</pre>
+    </main>
+  </body>
+</html>
